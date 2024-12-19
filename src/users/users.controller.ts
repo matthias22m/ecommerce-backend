@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } fro
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { AuthService } from 'src/auth/auth.service';
-import { JwtAuthGuard } from 'src/auth/guards/jwt.guards';
+import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { JWT_SECRET } from 'src/configs/jwt_secret';
 import { UpdateUserDto } from './dto/update-user.dto';
 
