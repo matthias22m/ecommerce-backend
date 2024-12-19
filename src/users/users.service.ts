@@ -25,13 +25,15 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
-  async findOneByEmail(email: string): Promise<User | undefined> {
+  async findOneByEmail(email: string): Promise<User> {
     return this.usersRepository.findOne({ where: { email } });
+
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<void> {
     const { password, profile } = updateUserDto;
-    const hashedPassword = password ? bcrypt.hash(password, 10) : undefined;
+    const hashedPassword = password ? await bcrypt.hash(password, 10) : undefined;
+    
     await this.usersRepository.update(id, {
       ...(password && { password: hashedPassword }),
     });
