@@ -15,7 +15,7 @@ export class Order {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.orders)
+  @ManyToOne(() => User, (user) => user.orders, {onDelete:'SET NULL'})
   user: User;
 
   @Column({
@@ -27,27 +27,9 @@ export class Order {
   @Column('decimal')
   total: number;
 
-  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, { cascade: true })
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, { onDelete: 'CASCADE' })
   items: OrderItem[];
 
   @CreateDateColumn()
   createdAt: Date;
 }
-
-// @Entity()
-// export class OrderItem {
-//   @PrimaryGeneratedColumn()
-//   id: number;
-
-//   @ManyToOne(() => Order, (order) => order.items)
-//   order: Order;
-
-//   @ManyToOne(() => Product, (product) => product.id)
-//   product: Product;
-
-//   @Column('int')
-//   quantity : number
-
-//   @Column('decimal')
-//   price: number
-// }
