@@ -4,7 +4,7 @@ import { Order } from './entities/order.entity';
 import { Repository } from 'typeorm';
 import { UsersService } from 'src/users/users.service';
 import { ProductsService } from 'src/products/products.service';
-import { CreateOrderDto } from './dto/create-order.dto';
+import { CreateOrderDto, validateCreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderStatusDto } from './dto/update-order-status.dto';
 import { OrderItem } from './entities/orderItem.entity';
 
@@ -22,11 +22,11 @@ export class OrdersService {
   ) {}
 
   async createOrder(createOrderDto: CreateOrderDto): Promise<Order> {
-    console.log(createOrderDto);
+    validateCreateOrderDto(createOrderDto)
     const { userId, items } = createOrderDto;
 
     const user = await this.usersService.findOneById(userId);
-    console.log(userId, user);
+  
     if (!user) {
       throw new NotFoundException('User Not Found.');
     }
@@ -38,7 +38,7 @@ export class OrdersService {
       const product = await this.productsService.findProductById(
         item.productId,
       );
-      console.log(product, item.productId);
+      
       if (!product) {
         throw new NotFoundException(
           `Product with ID '${item.productId}' Not Found.`,
@@ -88,7 +88,7 @@ export class OrdersService {
     id: number,
     updateOrderStatusDto: UpdateOrderStatusDto,
   ): Promise<Order> {
-    console.log(id,updateOrderStatusDto)
+    
     const order = await this.findOneById(id);
 
     if (!order) {

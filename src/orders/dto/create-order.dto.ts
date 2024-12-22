@@ -1,4 +1,6 @@
 import { ArrayNotEmpty, IsArray, IsNotEmpty, IsNumber } from 'class-validator';
+import { plainToClass } from 'class-transformer';
+import { validate, ValidationError } from 'class-validator';
 
 export class OrderItemDto {
   @IsNotEmpty()
@@ -9,7 +11,6 @@ export class OrderItemDto {
   @IsNumber()
   quantity: number;
 }
-
 export class CreateOrderDto {
   @IsNotEmpty()
   @IsNumber()
@@ -19,4 +20,10 @@ export class CreateOrderDto {
   @IsArray()
   @ArrayNotEmpty()
   items: OrderItemDto[];
+}
+
+export async function validateCreateOrderDto(data: any): Promise<ValidationError[]> {
+  const createOrderDto = plainToClass(CreateOrderDto, data);
+  const errors = await validate(createOrderDto);
+  return errors;
 }
