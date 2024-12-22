@@ -7,13 +7,15 @@ import { ProductsModule } from './products/products.module';
 import { OrdersModule } from './orders/orders.module';
 import { Product } from './products/entities/products.entity';
 import { Category } from './products/entities/category.entity';
+import { Order } from './orders/entities/order.entity';
+import { OrderItem } from './orders/entities/orderItem.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'data.db',
-      entities: [User,Product,Category],
+      entities: [User,Product,Category,Order,OrderItem],
       synchronize: true,
     }),
     UsersModule,
