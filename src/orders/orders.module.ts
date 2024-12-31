@@ -16,5 +16,6 @@ import { ProductsService } from 'src/products/products.service';
   ],
   controllers: [OrdersController],
   providers: [OrdersService],
+  exports: [OrdersService, TypeOrmModule], // Export TypeOrmModule to make repositories available
 })
 export class OrdersModule {}
