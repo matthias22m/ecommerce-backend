@@ -9,12 +9,13 @@ export class PaymentController {
 
   @Post('create-payment-intent/:orderId')
   createPaymentIntent(@Param('orderId') orderId: number) {
+    console.log(orderId);
     return this.paymentService.createPaymentIntent(orderId);
   }
 
   @Post('webhook')
   async handleWebHook(@Req() request: Request) {
-    const rawBodyBuffer = await rawBody(request);
+    const rawBodyBuffer = request.body; // Use the raw body directly
 
     const sign = request.headers['stripe-signature'];
     const stripeEvent = this.paymentService.stripe.webhooks.constructEvent(

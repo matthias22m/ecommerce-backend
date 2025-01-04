@@ -28,6 +28,7 @@ export class PaymentService {
   }
 
   async createPaymentIntent(orderId: number): Promise<Stripe.PaymentIntent> {
+    console.log(orderId);
     const order = await this.orderRepository.findOne({
       where: { id: orderId },
       relations: ['items', 'user', 'items.product'],
@@ -35,6 +36,7 @@ export class PaymentService {
     if (!order) {
       throw new NotFoundException('Order Not Found.');
     }
+    console.log(order)
 
     const paymentIntent = await this.stripe.paymentIntents.create({
       amount: Math.round(order.total * 100),
